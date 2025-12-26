@@ -1,0 +1,1382 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🍺 Juleølsmaking</title>
+  <style>
+    :root{
+      --bg: #0e0f12;
+      --card: #151823;
+      --muted: #9aa3b2;
+      --text: #eef2ff;
+      --accent: #7c3aed;
+      --accent2: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 12px 40px rgba(0,0,0,.45);
+      --radius: 16px;
+      --radius2: 22px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    /* Light mode (valgfri) */
+    body.light{
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --text:#0b1020;
+      --border: rgba(15,23,42,.10);
+      --shadow: 0 12px 30px rgba(15,23,42,.15);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background: radial-gradient(1000px 700px at 20% -10%, rgba(124,58,237,.25), transparent 60%),
+                  radial-gradient(900px 700px at 120% 0%, rgba(34,197,94,.18), transparent 60%),
+                  radial-gradient(900px 700px at 50% 120%, rgba(245,158,11,.10), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 14px 60px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .title{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .logo{
+      width:48px;height:48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,197,94,.95));
+      box-shadow: var(--shadow);
+      display:grid;
+      place-items:center;
+      font-size: 22px;
+      flex: 0 0 auto;
+    }
+    h1{
+      margin:0;
+      font-size: 20px;
+      line-height: 1.1;
+      letter-spacing: .2px;
+    }
+    .sub{
+      margin-top:4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor:pointer;
+      font-size: 14px;
+      line-height: 1;
+      box-shadow: 0 8px 20px rgba(0,0,0,.20);
+      transition: transform .06s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      white-space: nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); }
+    .btn:active{ transform: translateY(0px); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(124,58,237,.55));
+      border-color: rgba(124,58,237,.35);
+    }
+    .btn.good{
+      background: linear-gradient(135deg, rgba(34,197,94,.95), rgba(34,197,94,.55));
+      border-color: rgba(34,197,94,.35);
+    }
+    .btn.warn{
+      background: linear-gradient(135deg, rgba(245,158,11,.95), rgba(245,158,11,.55));
+      border-color: rgba(245,158,11,.35);
+      color: #111827;
+    }
+    body:not(.light) .btn.warn{ color: #111827; }
+    .btn.danger{
+      background: linear-gradient(135deg, rgba(239,68,68,.95), rgba(239,68,68,.55));
+      border-color: rgba(239,68,68,.35);
+    }
+    .btn.ghost{
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(8px);
+    }
+    body.light .card{ background: rgba(255,255,255,.75); }
+
+    .card .hd{
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .card .hd h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .card .bd{
+      padding: 14px;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+
+    .field{
+      display:grid;
+      gap:6px;
+      width:100%;
+      margin-bottom: 10px;
+    }
+    label{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    input[type="text"], input[type="number"], select, textarea{
+      width:100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline:none;
+      font-size: 15px;
+    }
+    textarea{ min-height: 90px; resize: vertical; font-family: var(--mono); font-size: 12px; }
+    body.light input, body.light select, body.light textarea{ background: rgba(15,23,42,.04); }
+
+    .muted{ color: var(--muted); font-size: 13px; }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .statRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 420px){
+      .statRow{ grid-template-columns: 1fr; }
+    }
+    .stat{
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+    }
+    .stat .k{ color: var(--muted); font-size: 12px; }
+    .stat .v{ font-size: 20px; margin-top:2px; font-weight: 800; letter-spacing: .2px; }
+
+    .list{
+      display:grid;
+      gap: 10px;
+    }
+
+    .beer{
+      border-top: 1px solid var(--border);
+    }
+    .beer:first-child{ border-top: 0; }
+
+    .beerHead{
+      padding: 12px 14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .beerTitle{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-width: 240px;
+      flex: 1 1 auto;
+    }
+    .num{
+      width: 36px; height: 36px;
+      border-radius: 12px;
+      background: rgba(124,58,237,.18);
+      border: 1px solid rgba(124,58,237,.28);
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      color: var(--text);
+      flex: 0 0 auto;
+    }
+    .name{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .name strong{ font-size: 15px; }
+    .name span{ color: var(--muted); font-size: 12px; }
+
+    .beerActions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex: 0 0 auto;
+    }
+
+    .beerBody{
+      padding: 0 14px 14px;
+      display:none;
+    }
+    .beer.open .beerBody{ display:block; }
+
+    .tabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      padding: 12px 0 10px;
+    }
+    .tab{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size: 13px;
+      color: var(--text);
+      user-select:none;
+    }
+    .tab.active{
+      background: rgba(34,197,94,.18);
+      border-color: rgba(34,197,94,.35);
+    }
+
+    .scoreGrid{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    @media (max-width: 760px){
+      .scoreGrid{ grid-template-columns: 1fr; }
+    }
+
+    .criteria{
+      display:grid;
+      gap: 10px;
+    }
+
+    .crit{
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+    }
+    .critTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .critTop strong{ font-size: 14px; }
+    .critTop .val{ font-weight: 900; font-size: 16px; }
+
+    .diceRow{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .die{
+      min-width: 42px;
+      padding: 9px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      cursor:pointer;
+      font-weight: 800;
+      user-select:none;
+    }
+    .die.active{
+      background: rgba(124,58,237,.22);
+      border-color: rgba(124,58,237,.40);
+    }
+
+    .notesBox{
+      display:grid;
+      gap:8px;
+    }
+    .notesBox textarea{ min-height: 110px; }
+
+    .rankList{
+      display:grid;
+      gap:8px;
+    }
+    .rankItem{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+    }
+    .rankLeft{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-width: 0;
+    }
+    .badge{
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      background: rgba(245,158,11,.16);
+      border: 1px solid rgba(245,158,11,.35);
+      flex: 0 0 auto;
+    }
+    .rankText{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+    .rankText strong{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .rankText span{ color: var(--muted); font-size: 12px; }
+
+    .mono{ font-family: var(--mono); }
+
+    .footerNote{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .smallBtn{
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--border);
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <div class="logo">🎄</div>
+        <div>
+          <h1>Juleølsmaking</h1>
+          <div class="sub">Terningkast 1–6 • flere deltakere • autosave • CSV-export</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn ghost" id="themeBtn" title="Bytt tema">🌓 Tema</button>
+        <button class="btn" id="exportBtn" title="Eksporter til CSV">⬇️ CSV</button>
+        <button class="btn warn" id="shareBtn" title="Kopier oppsett (JSON)">📦 Oppsett</button>
+        <button class="btn danger" id="resetBtn" title="Nullstill alt">🧨 Nullstill</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: Setup + Stats + Rankings -->
+      <section class="card">
+        <div class="hd">
+          <h2>Oppsett</h2>
+          <span class="pill" id="savePill">Lagrer ✅</span>
+        </div>
+        <div class="bd">
+          <div class="field">
+            <label>Antall øl</label>
+            <div class="row">
+              <input id="beerCount" type="number" min="1" max="60" style="max-width:140px" />
+              <button class="btn primary smallBtn" id="rebuildBtn">Lag/oppdater</button>
+            </div>
+            <div class="muted">Du kan gi hvert øl navn etterpå. (Tips: 8–12)</div>
+          </div>
+
+          <div class="field">
+            <label>Deltakere (komma-separert)</label>
+            <input id="tastersInput" type="text" placeholder="F.eks. Ola, Per, Anders" />
+            <div class="muted">Hver deltaker får egen tab i hvert øl.</div>
+          </div>
+
+          <div class="field">
+            <label>Visning</label>
+            <div class="row">
+              <select id="sortSelect" style="flex:1 1 180px">
+                <option value="num">Sorter: Ølnummer</option>
+                <option value="name">Sorter: Navn</option>
+                <option value="avgDesc">Sorter: Snitt (høyest først)</option>
+                <option value="avgAsc">Sorter: Snitt (lavest først)</option>
+              </select>
+
+              <select id="filterSelect" style="flex:1 1 180px">
+                <option value="all">Vis: Alle</option>
+                <option value="incomplete">Vis: Ikke ferdig (mangler kast)</option>
+                <option value="complete">Vis: Ferdig (alle kast satt)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Søk (øl-navn)</label>
+            <input id="searchInput" type="text" placeholder="Søk..." />
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="statRow">
+            <div class="stat">
+              <div class="k">Øl med score</div>
+              <div class="v" id="statScored">-</div>
+            </div>
+            <div class="stat">
+              <div class="k">Total snitt</div>
+              <div class="v" id="statAvg">-</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="field">
+            <label>Toppliste – øl</label>
+            <div class="rankList" id="beerRank"></div>
+          </div>
+
+          <div class="field">
+            <label>Toppliste – tastere</label>
+            <div class="rankList" id="tasterRank"></div>
+          </div>
+
+          <div class="footerNote">
+            Tips: Trykk på et øl for å åpne detaljene. Alt lagres lokalt på mobilen din.
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Beer list -->
+      <section class="card">
+        <div class="hd">
+          <h2>Ølliste</h2>
+          <span class="pill mono" id="metaPill">-</span>
+        </div>
+        <div class="list" id="beerList"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Setup modal (simple) -->
+  <div id="setupOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); padding:16px; z-index:999;">
+    <div class="card" style="max-width:900px; margin:0 auto; max-height: calc(100vh - 32px); overflow:auto;">
+      <div class="hd">
+        <h2>Oppsett (del/importer)</h2>
+        <button class="btn smallBtn" id="closeOverlayBtn">Lukk ✖</button>
+      </div>
+      <div class="bd">
+        <div class="muted" style="margin-bottom:10px;">
+          Her kan du kopiere/lim inn oppsett (deltakere + øl-navn + antall). Dette er nyttig hvis du vil
+          sende oppsettet til noen som skal lage sin egen scoring.
+        </div>
+
+        <div class="row" style="margin-bottom:10px;">
+          <button class="btn good" id="copySetupBtn">Kopier oppsett 📋</button>
+          <button class="btn primary" id="applySetupBtn">Bruk oppsett (import) ⬆️</button>
+        </div>
+
+        <div class="field">
+          <label>Oppsett (JSON)</label>
+          <textarea id="setupJson"></textarea>
+          <div class="muted">Import påvirker kun oppsett (ikke score) med mindre du importerer full state.</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field">
+          <label>Full backup (inkl. score) – avansert</label>
+          <div class="row" style="margin-bottom:10px;">
+            <button class="btn" id="copyFullBtn">Kopier full backup 📋</button>
+            <button class="btn danger" id="applyFullBtn">Importer full backup 🧨</button>
+          </div>
+          <textarea id="fullJson"></textarea>
+          <div class="muted">⚠️ Import av full backup overskriver alt.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ----------------------------
+    // State
+    // ----------------------------
+    const KEY = "juleol_mega_v1";
+
+    const CRITERIA = [
+      { id: "aroma", label: "Aroma" },
+      { id: "taste", label: "Smak" },
+      { id: "finish", label: "Ettersmak" }
+    ];
+
+    const defaultState = () => ({
+      version: 1,
+      theme: "dark",
+      settings: {
+        beerCount: 10,
+        tasters: ["Deg"], // kan endres
+        sort: "num",
+        filter: "all",
+        search: ""
+      },
+      beers: Array.from({ length: 10 }, (_, i) => ({
+        id: cryptoRandomId(),
+        num: i + 1,
+        name: "",
+        notes: "",
+        ratings: {} // taster -> { aroma,taste,finish }
+      }))
+    });
+
+    function cryptoRandomId(){
+      // enkel id uten libs
+      return "b_" + Math.random().toString(16).slice(2) + Date.now().toString(16);
+    }
+
+    function load(){
+      try{
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return defaultState();
+        const st = JSON.parse(raw);
+        return normalize(st);
+      }catch{
+        return defaultState();
+      }
+    }
+
+    function save(){
+      localStorage.setItem(KEY, JSON.stringify(state));
+      setSavePill(true);
+      clearTimeout(save._t);
+      save._t = setTimeout(() => setSavePill(false), 700);
+    }
+
+    function normalize(st){
+      if(!st || typeof st !== "object") return defaultState();
+
+      // merge minimum
+      const base = defaultState();
+      const out = {
+        ...base,
+        ...st,
+        settings: { ...base.settings, ...(st.settings || {}) },
+      };
+
+      // beers
+      if(!Array.isArray(st.beers)) out.beers = base.beers;
+      else out.beers = st.beers.map((b, idx) => ({
+        id: b.id || cryptoRandomId(),
+        num: Number(b.num) || (idx+1),
+        name: (b.name ?? ""),
+        notes: (b.notes ?? ""),
+        ratings: (b.ratings && typeof b.ratings === "object") ? b.ratings : {}
+      }));
+
+      // ensure count matches
+      out.settings.beerCount = clampInt(out.settings.beerCount, 1, 60);
+      out.settings.tasters = normalizeTasters(out.settings.tasters);
+      out.settings.sort = out.settings.sort || "num";
+      out.settings.filter = out.settings.filter || "all";
+      out.settings.search = out.settings.search || "";
+
+      // adjust beers length
+      out = ensureBeerCount(out, out.settings.beerCount);
+      return out;
+    }
+
+    function clampInt(v, min, max){
+      v = Number(v);
+      if(!Number.isFinite(v)) v = min;
+      v = Math.round(v);
+      return Math.min(max, Math.max(min, v));
+    }
+
+    function normalizeTasters(t){
+      let arr = [];
+      if(Array.isArray(t)) arr = t;
+      else if(typeof t === "string") arr = t.split(",").map(s => s.trim()).filter(Boolean);
+      else arr = ["Deg"];
+      // unike, trim, maks 12
+      const seen = new Set();
+      const clean = [];
+      for(const x of arr){
+        const v = String(x).trim();
+        if(!v) continue;
+        const key = v.toLowerCase();
+        if(seen.has(key)) continue;
+        seen.add(key);
+        clean.push(v);
+        if(clean.length >= 12) break;
+      }
+      return clean.length ? clean : ["Deg"];
+    }
+
+    function ensureBeerCount(st, count){
+      count = clampInt(count, 1, 60);
+      const beers = st.beers.slice(0, count);
+      while(beers.length < count){
+        beers.push({
+          id: cryptoRandomId(),
+          num: beers.length + 1,
+          name: "",
+          notes: "",
+          ratings: {}
+        });
+      }
+      // renummer
+      beers.forEach((b, i) => b.num = i + 1);
+      st.beers = beers;
+      st.settings.beerCount = count;
+      return st;
+    }
+
+    function setSavePill(saved){
+      const el = document.getElementById("savePill");
+      el.textContent = saved ? "Lagrer… 💾" : "Lagrer ✅";
+      el.style.borderColor = saved ? "rgba(245,158,11,.35)" : "var(--border)";
+      el.style.background = saved ? "rgba(245,158,11,.14)" : "rgba(255,255,255,.06)";
+    }
+
+    // ----------------------------
+    // Calculations
+    // ----------------------------
+    function beerTasterTotal(beer, taster){
+      const r = beer.ratings?.[taster];
+      if(!r) return null;
+      let sum = 0;
+      for(const c of CRITERIA){
+        const v = r[c.id];
+        if(typeof v !== "number") return null;
+        sum += v;
+      }
+      return sum; // 3..18
+    }
+
+    function beerAvg(beer){
+      const tasters = state.settings.tasters;
+      const totals = tasters.map(t => beerTasterTotal(beer, t)).filter(v => typeof v === "number");
+      if(!totals.length) return null;
+      const avg = totals.reduce((a,b)=>a+b,0) / totals.length;
+      return avg; // avg total (3..18)
+    }
+
+    function beerComplete(beer){
+      const tasters = state.settings.tasters;
+      for(const t of tasters){
+        const r = beer.ratings?.[t];
+        for(const c of CRITERIA){
+          if(!r || typeof r[c.id] !== "number") return false;
+        }
+      }
+      return true;
+    }
+
+    function globalAvg(){
+      const avgs = state.beers.map(b => beerAvg(b)).filter(v => typeof v === "number");
+      if(!avgs.length) return null;
+      return avgs.reduce((a,b)=>a+b,0) / avgs.length;
+    }
+
+    function scoredBeerCount(){
+      return state.beers.filter(b => beerAvg(b) !== null).length;
+    }
+
+    function tasterAvg(taster){
+      // snitt per taster på tvers av øl (total 3..18)
+      const totals = [];
+      for(const b of state.beers){
+        const t = beerTasterTotal(b, taster);
+        if(typeof t === "number") totals.push(t);
+      }
+      if(!totals.length) return null;
+      return totals.reduce((a,b)=>a+b,0)/totals.length;
+    }
+
+    // ----------------------------
+    // DOM helpers
+    // ----------------------------
+    const $ = (id) => document.getElementById(id);
+
+    function esc(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    function downloadText(filename, text){
+      const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyToClipboard(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("Kopiert 📋");
+      }catch{
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        alert("Kopiert 📋");
+      }
+    }
+
+    // ----------------------------
+    // Rendering
+    // ----------------------------
+    let state = load();
+
+    function applyTheme(){
+      document.body.classList.toggle("light", state.theme === "light");
+    }
+
+    function renderStats(){
+      $("statScored").textContent = `${scoredBeerCount()} / ${state.beers.length}`;
+      const avg = globalAvg();
+      $("statAvg").textContent = avg === null ? "-" : avg.toFixed(2);
+
+      $("metaPill").textContent = `${state.settings.tasters.length} taster(e) • ${state.beers.length} øl • ${CRITERIA.length} kriterier`;
+    }
+
+    function renderRankings(){
+      // Beer ranking (top 5)
+      const items = state.beers
+        .map(b => ({ b, avg: beerAvg(b) }))
+        .filter(x => x.avg !== null)
+        .sort((a,b) => b.avg - a.avg)
+        .slice(0, 5);
+
+      const beerRank = $("beerRank");
+      beerRank.innerHTML = "";
+      if(!items.length){
+        beerRank.innerHTML = `<div class="muted">Ingen score enda. Start med øl #1 👀</div>`;
+      }else{
+        items.forEach((x, i) => {
+          const name = x.b.name?.trim() ? x.b.name.trim() : `Øl #${x.b.num}`;
+          const sub = `Snitt total: ${x.avg.toFixed(2)} (3–18)`;
+          beerRank.insertAdjacentHTML("beforeend", `
+            <div class="rankItem">
+              <div class="rankLeft">
+                <div class="badge">${i+1}</div>
+                <div class="rankText">
+                  <strong>${esc(name)}</strong>
+                  <span>${esc(sub)}</span>
+                </div>
+              </div>
+              <div class="pill mono">${x.avg.toFixed(2)}</div>
+            </div>
+          `);
+        });
+      }
+
+      // Taster ranking
+      const tItems = state.settings.tasters
+        .map(t => ({ t, avg: tasterAvg(t) }))
+        .filter(x => x.avg !== null)
+        .sort((a,b)=> b.avg - a.avg)
+        .slice(0, 6);
+
+      const tRank = $("tasterRank");
+      tRank.innerHTML = "";
+      if(!tItems.length){
+        tRank.innerHTML = `<div class="muted">Ingen taster-score enda.</div>`;
+      }else{
+        tItems.forEach((x,i)=>{
+          tRank.insertAdjacentHTML("beforeend", `
+            <div class="rankItem">
+              <div class="rankLeft">
+                <div class="badge">${i+1}</div>
+                <div class="rankText">
+                  <strong>${esc(x.t)}</strong>
+                  <span>Snitt: ${x.avg.toFixed(2)} (3–18)</span>
+                </div>
+              </div>
+              <div class="pill mono">${x.avg.toFixed(2)}</div>
+            </div>
+          `);
+        });
+      }
+    }
+
+    function filteredBeers(){
+      let arr = [...state.beers];
+
+      const q = (state.settings.search || "").trim().toLowerCase();
+      if(q){
+        arr = arr.filter(b => (b.name || "").toLowerCase().includes(q));
+      }
+
+      const f = state.settings.filter;
+      if(f === "complete") arr = arr.filter(b => beerComplete(b));
+      if(f === "incomplete") arr = arr.filter(b => !beerComplete(b));
+
+      const s = state.settings.sort;
+      if(s === "num") arr.sort((a,b)=> a.num - b.num);
+      if(s === "name") arr.sort((a,b)=> (a.name||"").localeCompare(b.name||"", "no", { sensitivity:"base" }));
+      if(s === "avgDesc") arr.sort((a,b)=> (beerAvg(b)??-Infinity) < (beerAvg(a)??-Infinity) ? -1 : 1);
+      if(s === "avgAsc") arr.sort((a,b)=> (beerAvg(a)??Infinity) < (beerAvg(b)??Infinity) ? -1 : 1);
+
+      return arr;
+    }
+
+    function renderBeerList(){
+      const list = $("beerList");
+      list.innerHTML = "";
+
+      const beers = filteredBeers();
+      if(!beers.length){
+        list.innerHTML = `<div class="bd"><div class="muted">Ingen treff.</div></div>`;
+        return;
+      }
+
+      for(const beer of beers){
+        const avg = beerAvg(beer);
+        const isComplete = beerComplete(beer);
+        const title = beer.name?.trim() ? beer.name.trim() : `Navn ikke satt`;
+        const subtitle = `Øl #${beer.num} • ${isComplete ? "Ferdig ✅" : "Ikke ferdig"} • Snitt: ${avg===null?"-":avg.toFixed(2)}`;
+
+        const el = document.createElement("div");
+        el.className = "beer";
+        el.dataset.beerId = beer.id;
+
+        el.innerHTML = `
+          <div class="beerHead">
+            <div class="beerTitle">
+              <div class="num">${beer.num}</div>
+              <div class="name">
+                <strong>${esc(title)}</strong>
+                <span>${esc(subtitle)}</span>
+              </div>
+            </div>
+            <div class="beerActions">
+              <span class="pill mono">${avg===null ? "—" : avg.toFixed(2)}</span>
+              <button class="btn smallBtn" data-action="toggle">Åpne</button>
+            </div>
+          </div>
+          <div class="beerBody">
+            <div class="scoreGrid">
+              <div>
+                <div class="field">
+                  <label>Ølnavn</label>
+                  <input type="text" data-action="name" value="${esc(beer.name)}" placeholder="F.eks. Aass Juleøl" />
+                </div>
+
+                <div class="field">
+                  <label>Notater (valgfritt)</label>
+                  <input type="text" data-action="notes" value="${esc(beer.notes)}" placeholder="F.eks. karamell, krydder, litt bitter" />
+                </div>
+
+                <div class="tabs" data-tabs="1"></div>
+                <div class="criteria" data-criteria="1"></div>
+              </div>
+
+              <div>
+                <div class="field">
+                  <label>Oppsummering</label>
+                  <div class="stat" style="margin-bottom:10px;">
+                    <div class="k">Snitt total (3–18)</div>
+                    <div class="v">${avg===null ? "-" : avg.toFixed(2)}</div>
+                  </div>
+                  <div class="stat">
+                    <div class="k">Status</div>
+                    <div class="v" style="font-size:16px; font-weight:800;">
+                      ${isComplete ? "Ferdig ✅" : "Mangler kast"}
+                    </div>
+                    <div class="muted" style="margin-top:6px;">
+                      Tips: Alle tastere må sette Aroma/Smak/Ettersmak for at ølet blir “ferdig”.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Hurtig</label>
+                  <div class="row">
+                    <button class="btn danger smallBtn" data-action="clearBeer">Tøm score for dette ølet</button>
+                    <button class="btn smallBtn" data-action="close">Lukk</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        `;
+
+        // wire tabs + criteria content
+        const tabs = el.querySelector('[data-tabs="1"]');
+        const critWrap = el.querySelector('[data-criteria="1"]');
+
+        state.settings.tasters.forEach((t, idx) => {
+          const tab = document.createElement("div");
+          tab.className = "tab" + (idx===0 ? " active" : "");
+          tab.textContent = t;
+          tab.dataset.taster = t;
+          tabs.appendChild(tab);
+        });
+
+        // default active taster = first
+        const activeTaster = state.settings.tasters[0];
+        critWrap.appendChild(buildCriteriaBlock(beer, activeTaster));
+
+        // append
+        list.appendChild(el);
+      }
+    }
+
+    function buildCriteriaBlock(beer, taster){
+      const wrap = document.createElement("div");
+
+      const r = beer.ratings[taster] || {};
+      const total = beerTasterTotal(beer, taster);
+
+      // header for taster
+      const head = document.createElement("div");
+      head.className = "stat";
+      head.style.marginBottom = "10px";
+      head.innerHTML = `
+        <div class="k">Taster</div>
+        <div class="v" style="font-size:16px">${esc(taster)}</div>
+        <div class="muted" style="margin-top:6px">Total: <span class="mono">${total===null ? "-" : total}</span> (3–18)</div>
+      `;
+      wrap.appendChild(head);
+
+      // criteria cards
+      for(const c of CRITERIA){
+        const crit = document.createElement("div");
+        crit.className = "crit";
+
+        const val = typeof r[c.id] === "number" ? r[c.id] : null;
+
+        const top = document.createElement("div");
+        top.className = "critTop";
+        top.innerHTML = `<strong>${esc(c.label)}</strong><div class="val mono">${val===null ? "-" : val}</div>`;
+        crit.appendChild(top);
+
+        const dice = document.createElement("div");
+        dice.className = "diceRow";
+        for(let v=1; v<=6; v++){
+          const b = document.createElement("button");
+          b.className = "die" + (val===v ? " active" : "");
+          b.textContent = v;
+          b.onclick = () => {
+            setRating(beer.id, taster, c.id, v);
+          };
+          dice.appendChild(b);
+        }
+        crit.appendChild(dice);
+
+        wrap.appendChild(crit);
+      }
+
+      return wrap;
+    }
+
+    function render(){
+      applyTheme();
+
+      $("beerCount").value = state.settings.beerCount;
+      $("tastersInput").value = state.settings.tasters.join(", ");
+      $("sortSelect").value = state.settings.sort;
+      $("filterSelect").value = state.settings.filter;
+      $("searchInput").value = state.settings.search;
+
+      renderStats();
+      renderRankings();
+      renderBeerList();
+    }
+
+    // ----------------------------
+    // Actions
+    // ----------------------------
+    function setRating(beerId, taster, critId, value){
+      const beer = state.beers.find(b => b.id === beerId);
+      if(!beer) return;
+      if(!beer.ratings[taster]) beer.ratings[taster] = {};
+      beer.ratings[taster][critId] = value;
+      save();
+      render(); // enkel og robust
+      // reopen same beer? best effort: keep open state is not stored; user can reopen quickly.
+      // For UX: auto-open that beer after render
+      setTimeout(() => openBeerById(beerId), 0);
+      setTimeout(() => setActiveTab(beerId, taster), 0);
+    }
+
+    function openBeerById(beerId){
+      const el = document.querySelector(`[data-beer-id="${beerId}"]`);
+      if(!el) return;
+      el.classList.add("open");
+      // scroll lightly into view on mobile
+      el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+
+    function closeBeerById(beerId){
+      const el = document.querySelector(`[data-beer-id="${beerId}"]`);
+      if(!el) return;
+      el.classList.remove("open");
+    }
+
+    function setActiveTab(beerId, taster){
+      const el = document.querySelector(`[data-beer-id="${beerId}"]`);
+      if(!el) return;
+      const tabs = [...el.querySelectorAll(".tab")];
+      tabs.forEach(x => x.classList.toggle("active", x.dataset.taster === taster));
+      const beer = state.beers.find(b => b.id === beerId);
+      const critWrap = el.querySelector('[data-criteria="1"]');
+      if(!beer || !critWrap) return;
+      critWrap.innerHTML = "";
+      critWrap.appendChild(buildCriteriaBlock(beer, taster));
+    }
+
+    function rebuildFromInputs(){
+      const count = clampInt($("beerCount").value, 1, 60);
+      const tasters = normalizeTasters($("tastersInput").value);
+
+      state.settings.beerCount = count;
+      state.settings.tasters = tasters;
+      state = ensureBeerCount(state, count);
+
+      // ensure ratings objects exist per new taster? Not needed; created on demand.
+      // Option: clean removed tasters ratings to keep tidy
+      for(const b of state.beers){
+        const next = {};
+        for(const t of tasters){
+          if(b.ratings && b.ratings[t]) next[t] = b.ratings[t];
+        }
+        b.ratings = next;
+      }
+
+      save();
+      render();
+    }
+
+    function clearBeer(beerId){
+      if(!confirm("Tømme score for dette ølet?")) return;
+      const beer = state.beers.find(b => b.id === beerId);
+      if(!beer) return;
+      beer.ratings = {};
+      save();
+      render();
+      openBeerById(beerId);
+    }
+
+    function resetAll(){
+      if(!confirm("Nullstille ALT? (øl, deltakere, score)")) return;
+      state = defaultState();
+      save();
+      render();
+    }
+
+    function exportCSV(){
+      // Wide format: one row per beer.
+      // Columns: beer_num, beer_name, beer_notes, avg_total, then per taster per criterion + total
+      const tasters = state.settings.tasters;
+
+      const header = [
+        "beer_num",
+        "beer_name",
+        "beer_notes",
+        "avg_total_3to18",
+        ...tasters.flatMap(t => CRITERIA.map(c => `${t}_${c.id}`)),
+        ...tasters.map(t => `${t}_total_3to18`)
+      ];
+
+      const rows = state.beers.map(b => {
+        const avg = beerAvg(b);
+        const base = [
+          b.num,
+          (b.name || "").replaceAll('"','""'),
+          (b.notes || "").replaceAll('"','""'),
+          avg === null ? "" : avg.toFixed(2)
+        ];
+
+        const per = tasters.flatMap(t => CRITERIA.map(c => {
+          const v = b.ratings?.[t]?.[c.id];
+          return typeof v === "number" ? v : "";
+        }));
+
+        const totals = tasters.map(t => {
+          const tot = beerTasterTotal(b, t);
+          return typeof tot === "number" ? tot : "";
+        });
+
+        const line = [...base, ...per, ...totals].map(v => {
+          // CSV with quotes for safety
+          const s = String(v ?? "");
+          return `"${s.replaceAll('"','""')}"`;
+        }).join(",");
+
+        return line;
+      });
+
+      const csv = [header.map(h => `"${h}"`).join(","), ...rows].join("\n");
+      downloadText("juleol.csv", csv);
+    }
+
+    function openSetup(){
+      $("setupOverlay").style.display = "block";
+
+      // Setup JSON: only config (no scores)
+      const setup = {
+        beerCount: state.settings.beerCount,
+        tasters: state.settings.tasters,
+        beers: state.beers.map(b => ({ num: b.num, name: b.name }))
+      };
+      $("setupJson").value = JSON.stringify(setup, null, 2);
+
+      // Full JSON: entire state
+      $("fullJson").value = JSON.stringify(state, null, 2);
+    }
+
+    function closeSetup(){
+      $("setupOverlay").style.display = "none";
+    }
+
+    function applySetupJson(){
+      try{
+        const obj = JSON.parse($("setupJson").value);
+        const count = clampInt(obj.beerCount ?? state.settings.beerCount, 1, 60);
+        const tasters = normalizeTasters(obj.tasters ?? state.settings.tasters);
+
+        state.settings.beerCount = count;
+        state.settings.tasters = tasters;
+        state = ensureBeerCount(state, count);
+
+        // apply names
+        if(Array.isArray(obj.beers)){
+          for(const item of obj.beers){
+            const n = Number(item.num);
+            if(!Number.isFinite(n)) continue;
+            const idx = n - 1;
+            if(idx >= 0 && idx < state.beers.length){
+              state.beers[idx].name = String(item.name ?? "");
+            }
+          }
+        }
+
+        // clean ratings to current tasters
+        for(const b of state.beers){
+          const next = {};
+          for(const t of tasters){
+            if(b.ratings && b.ratings[t]) next[t] = b.ratings[t];
+          }
+          b.ratings = next;
+        }
+
+        save();
+        render();
+        alert("Oppsett importert ✅");
+      }catch(e){
+        alert("Kunne ikke lese JSON. Sjekk at du har limt inn korrekt.");
+      }
+    }
+
+    function applyFullJson(){
+      if(!confirm("Dette overskriver ALT. Fortsette?")) return;
+      try{
+        const obj = JSON.parse($("fullJson").value);
+        state = normalize(obj);
+        save();
+        render();
+        alert("Full backup importert ✅");
+      }catch{
+        alert("Kunne ikke lese JSON.");
+      }
+    }
+
+    // ----------------------------
+    // Event listeners
+    // ----------------------------
+    $("themeBtn").addEventListener("click", () => {
+      state.theme = (state.theme === "light") ? "dark" : "light";
+      save();
+      render();
+    });
+
+    $("rebuildBtn").addEventListener("click", rebuildFromInputs);
+
+    $("tastersInput").addEventListener("change", rebuildFromInputs);
+    $("beerCount").addEventListener("change", rebuildFromInputs);
+
+    $("sortSelect").addEventListener("change", (e) => {
+      state.settings.sort = e.target.value;
+      save();
+      render();
+    });
+
+    $("filterSelect").addEventListener("change", (e) => {
+      state.settings.filter = e.target.value;
+      save();
+      render();
+    });
+
+    $("searchInput").addEventListener("input", (e) => {
+      state.settings.search = e.target.value;
+      save();
+      render();
+    });
+
+    $("resetBtn").addEventListener("click", resetAll);
+    $("exportBtn").addEventListener("click", exportCSV);
+    $("shareBtn").addEventListener("click", openSetup);
+    $("closeOverlayBtn").addEventListener("click", closeSetup);
+
+    $("copySetupBtn").addEventListener("click", () => copyToClipboard($("setupJson").value));
+    $("applySetupBtn").addEventListener("click", applySetupJson);
+    $("copyFullBtn").addEventListener("click", () => copyToClipboard($("fullJson").value));
+    $("applyFullBtn").addEventListener("click", applyFullJson);
+
+    // Delegated events for beer list
+    document.addEventListener("click", (e) => {
+      const beerEl = e.target.closest(".beer");
+      if(!beerEl) return;
+      const beerId = beerEl.dataset.beerId;
+      const action = e.target?.dataset?.action;
+
+      if(action === "toggle"){
+        beerEl.classList.toggle("open");
+        return;
+      }
+      if(action === "close"){
+        closeBeerById(beerId);
+        return;
+      }
+      if(action === "clearBeer"){
+        clearBeer(beerId);
+        return;
+      }
+
+      // Tabs
+      const tab = e.target.closest(".tab");
+      if(tab && tab.dataset.taster){
+        setActiveTab(beerId, tab.dataset.taster);
+        return;
+      }
+    });
+
+    // Input events inside beer cards
+    document.addEventListener("input", (e) => {
+      const beerEl = e.target.closest(".beer");
+      if(!beerEl) return;
+      const beerId = beerEl.dataset.beerId;
+      const beer = state.beers.find(b => b.id === beerId);
+      if(!beer) return;
+
+      const action = e.target?.dataset?.action;
+      if(action === "name"){
+        beer.name = e.target.value;
+        save();
+        render();
+        openBeerById(beerId);
+      }
+      if(action === "notes"){
+        beer.notes = e.target.value;
+        save();
+        // ikke render hard på notes for å slippe at den hopper
+      }
+    });
+
+    // ----------------------------
+    // Init
+    // ----------------------------
+    applyTheme();
+    render();
+  </script>
+</body>
+</html>
